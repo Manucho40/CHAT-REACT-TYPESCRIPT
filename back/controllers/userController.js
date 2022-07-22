@@ -23,7 +23,7 @@ const postUser = asyncHandler(async(req, res) => {
     const userExists = await User.findOne({email})
     if(userExists){
         res.status(400)
-        throw new Error('User existe dejà')
+        throw new Error('Email existe dejà')
     }
     // Hasher le mot de passe
     const salt = await bcrypt.genSalt(10);

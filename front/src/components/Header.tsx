@@ -1,12 +1,22 @@
-import React, { FC } from 'react'
+import React, {useState } from 'react'
+import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { Button } from 'antd';
-const Header: FC = () => {
+type AppProps = {
+  showModal: () => void;
+}
+const Header = ({showModal}: AppProps) => {
+  const [size] = useState <SizeType>('large');
+ 
   return (
     <div>
         <header>
-            <Button type="primary" block>
-                CONNEXION
-            </Button>
+            <ul>
+                <li>
+                  <Button onClick={showModal} type="primary" size={size}>
+                      CONNEXION
+                  </Button>
+                </li>
+            </ul>
         </header>
     </div>
   )
