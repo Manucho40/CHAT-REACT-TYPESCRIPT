@@ -95,6 +95,7 @@ ul{
     display: flex;
     align-items: flex-end;
     width: 100%;
+   
 }
 .messageContent ul {
     padding: 0;
@@ -103,10 +104,11 @@ ul{
     align-items: flex-start;
     width: 100%;
     overflow-y: scroll;
-}
-.invite{
+    height: 75vh;
+
     
 }
+
 .user{
     align-self: end;
    
