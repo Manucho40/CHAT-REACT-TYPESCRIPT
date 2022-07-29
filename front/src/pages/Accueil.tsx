@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react'
+import { useSelector } from 'react-redux';
 import Header from '../components/Header'
 import ModalConnexion from '../components/ModalConnexion';
 
@@ -7,6 +8,7 @@ const Accueil: FC = () => {
   const showModal = () => {
     setVisible(!visible);
   };
+
     return(
       <>
         <Header showModal={showModal}/>
