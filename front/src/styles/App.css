@@ -1,5 +1,7 @@
 header{
-    background-color: #fff
+    background-color: #fff;
+    border: 3px solid #efefef;
+
 
 }
 
@@ -197,6 +199,15 @@ ul{
 }
 
 .formulaire{
-background-color: chartreuse;
+    display: flex;
+    flex-direction: column;
+  
+    max-width: 1200px;
+    margin: 50px auto;
+}
+
+.formulaire h1{
+
+    text-align: center;
 }
 /* CHAT */
