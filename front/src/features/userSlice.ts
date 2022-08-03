@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
+import { RootState } from "../app/store";
 
 export const API = "http://localhost:8080/api/user/";
 
@@ -49,14 +50,12 @@ export const userSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(dataAPI.fulfilled, (state, action) => {
             state.entries = action.payload
-            
             state.loading = "succeeded"
             
         })
       },
 })
 
-
+ export const selectData = (state: RootState) => state.users.entries
  export const {addUser} = userSlice.actions
-
-export default userSlice.reducer;
+ export default userSlice.reducer;

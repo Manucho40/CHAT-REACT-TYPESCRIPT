@@ -4,23 +4,23 @@ import axios from 'axios';
 import { message, Button, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
-import { addUser } from '../features/userSlice';
+import { addUser, dataAPI, selectData } from '../features/userSlice';
+import { useSelector } from 'react-redux';
 
 const api = "http://localhost:8080/api/user/";
 
 const Inscription = () => {
     const dispatch = useDispatch();
+    const allDatas = useSelector(selectData);
     const [form] = Form.useForm();
-    //  const [datas, setData] = useState([]);
     const [values, setValues] = useState({
         pseudo: '',
         email: '',
         password: ''
     })
     useEffect(() => {
-        axios.get(api).then((res) => console.log(res.data));
-       
-   }, [])
+        console.log(allDatas)
+   }, [allDatas])
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.persist();
@@ -46,7 +46,6 @@ const Inscription = () => {
         }
         else{
             axios.post(api).then(res =>{
-                // setData(res.data)
                 // values.pseudo = ""
                 // values.email = ""
                 // values.password = ""
@@ -134,7 +133,9 @@ const Inscription = () => {
                     </Button>
                 </Form.Item>
                 </Form>               
-
+                 {/* {selectData.map((item) => (
+                <p>{item.key}</p>
+                ))} */}
             </div>
 
         </>
