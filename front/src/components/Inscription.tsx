@@ -4,13 +4,14 @@ import axios from 'axios';
 import { message, Button, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
+import { addUser } from '../features/userSlice';
 
 const api = "http://localhost:8080/api/user/";
 
 const Inscription = () => {
-    const dispatch = useDispatch;
+    const dispatch = useDispatch();
     const [form] = Form.useForm();
-     const [datas, setData] = useState([]);
+    //  const [datas, setData] = useState([]);
     const [values, setValues] = useState({
         pseudo: '',
         email: '',
@@ -36,27 +37,28 @@ const Inscription = () => {
       const onFinishFailed = (errorInfo: ValidateErrorEntity) => {
         console.log('Failed:', errorInfo);
       };
-    // const registerUser = (e: any) => {
-    //     e.preventDefault()
+    const registerUser = (e: any) => {
+        e.preventDefault()
         
-    //     if(!values.pseudo || !values.email || !values.password){
-    //         message.error('Remplissez tous les champs');
+        if(!values.pseudo || !values.email || !values.password){
+            message.error('Remplissez tous les champs');
 
-    //     }
-    //     else{
-    //         axios.post(api, values).then(res =>{
-    //             setData(res.data)
-    //             values.pseudo = ""
-    //             values.email = ""
-    //             values.password = ""
-    //             form.resetFields();
-    //         })
+        }
+        else{
+            axios.post(api).then(res =>{
+                // setData(res.data)
+                // values.pseudo = ""
+                // values.email = ""
+                // values.password = ""
+                dispatch(addUser)
+                form.resetFields();
+            })
            
-    //         message.success('Inscription terminée!');
-    //     }
+            message.success('Inscription terminée!');
+        }
 
 
-    // }
+    }
 
     
     
@@ -127,9 +129,8 @@ const Inscription = () => {
                     span: 16,
                     }}
                 >
-                    <Button type="primary" htmlType="submit" >
-                    Submit
-                    {/* onClick={registerUser} */}
+                    <Button type="primary" htmlType="submit" onClick={registerUser}>
+                    Submit                   
                     </Button>
                 </Form.Item>
                 </Form>               

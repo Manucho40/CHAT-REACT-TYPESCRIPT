@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
 
-const API = "http://localhost:8080/api/user/";
+export const API = "http://localhost:8080/api/user/";
 
 export const dataAPI = createAsyncThunk(
     'userSlice/dataAPI',
@@ -16,7 +16,7 @@ export const dataAPI = createAsyncThunk(
 )
 
 interface UsersState{
-    entries: [],
+    entries: object[],
     loading: 'idle' | 'pending' | 'succeeded' | 'failed'
 }
 const initialState = {
@@ -42,9 +42,9 @@ export const userSlice = createSlice({
     name: "users",
     initialState,
     reducers: {
-        // setUsersData: (state, action) =>{
-        //     state.entries = action.payload
-        // }
+        addUser: (state, action) =>{
+            state.entries.push(action.payload)
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(dataAPI.fulfilled, (state, action) => {
@@ -57,5 +57,6 @@ export const userSlice = createSlice({
 })
 
 
+ export const {addUser} = userSlice.actions
 
 export default userSlice.reducer;
