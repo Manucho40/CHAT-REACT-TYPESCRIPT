@@ -14,7 +14,19 @@ export const dataAPI = createAsyncThunk(
             console.log(error)
         }
     }
-)
+);
+
+export const addUserAsync = createAsyncThunk(
+    'userSlice/addUserAsync',
+    async (data) => {
+        try{
+            const response = await axios.post(API, data);
+            return addUser(response)
+        }catch(error){
+            console.log(error)
+        }
+    }
+);
 
 interface UsersState{
     entries: object[],

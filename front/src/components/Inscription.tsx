@@ -4,7 +4,7 @@ import axios from 'axios';
 import { message, Button, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
-import { addUser, dataAPI, selectData } from '../features/userSlice';
+import { addUser, addUserAsync, selectData } from '../features/userSlice';
 import { useSelector } from 'react-redux';
 
 const api = "http://localhost:8080/api/user/";
@@ -45,13 +45,13 @@ const Inscription = () => {
 
         }
         else{
-            axios.post(api).then(res =>{
+
                 // values.pseudo = ""
                 // values.email = ""
                 // values.password = ""
-                dispatch(addUser)
+                dispatch(addUserAsync(values))
                 form.resetFields();
-            })
+            
            
             message.success('Inscription terminée!');
         }
@@ -133,9 +133,9 @@ const Inscription = () => {
                     </Button>
                 </Form.Item>
                 </Form>               
-                 {/* {selectData.map((item) => (
-                <p>{item.key}</p>
-                ))} */}
+                 {allDatas.map((item:any) => 
+                <p  key="{item._id}">{item.email}</p>
+                )}
             </div>
 
         </>
