@@ -18,10 +18,10 @@ export const dataAPI = createAsyncThunk(
 
 export const addUserAsync = createAsyncThunk(
     'userSlice/addUserAsync',
-    async (data) => {
+    async (data: object) => {
         try{
             const response = await axios.post(API, data);
-            return addUser(response)
+            addUser(response)
         }catch(error){
             console.log(error)
         }

@@ -1,16 +1,16 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { message, Button, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
-import { addUser, addUserAsync, selectData } from '../features/userSlice';
+import { addUserAsync, selectData } from '../features/userSlice';
 import { useSelector } from 'react-redux';
+import { AppDispatch } from '../app/store';
 
 const api = "http://localhost:8080/api/user/";
 
 const Inscription = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const allDatas = useSelector(selectData);
     const [form] = Form.useForm();
     const [values, setValues] = useState({
@@ -46,10 +46,11 @@ const Inscription = () => {
         }
         else{
 
-                // values.pseudo = ""
-                // values.email = ""
-                // values.password = ""
+                
                 dispatch(addUserAsync(values))
+                values.pseudo = " "
+                values.email = " "
+                values.password = " "
                 form.resetFields();
             
            
@@ -133,9 +134,9 @@ const Inscription = () => {
                     </Button>
                 </Form.Item>
                 </Form>               
-                 {allDatas.map((item:any) => 
-                <p  key="{item._id}">{item.email}</p>
-                )}
+                 {/* {allDatas.map((item:any) => 
+                <p  key="{item.pseudo}">{item.email}</p>
+                )} */}
             </div>
 
         </>
