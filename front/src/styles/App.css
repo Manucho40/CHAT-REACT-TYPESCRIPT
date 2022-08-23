@@ -1,18 +1,127 @@
-header{
-    background-color: #fff;
-    border: 3px solid #efefef;
-
-
-}
-
-ul{
-    list-style-type: none;
+.header {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid #e6e6e6;
+    margin-bottom: 60px;
+    font-size: 1.2rem;
+    font-weight: bold;
+
+  }
+  
+  .header ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .header ul li {
+    margin-left: 20px;
+    
+  }
+  a {
+    text-decoration: none;
+    color: #000 !important;
+  }
+
+  p {
+    line-height: 1.7;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  li {
+    line-height: 2.2;
+ }
+ .container {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+  }
+
+  .contain{
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .header ul li a {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header ul li a:hover {
+    color: #777;
+  }
+  
+  .header ul li a svg {
+    margin-right: 5px;
+  }
+  
+/* .ant-input:focus {
+    border-color: #000000 !important;
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2) !important;
 }
 
+.ant-input:hover{
+    border-color: #000000 !important;
+    -webkit-box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2) !important;
+} */
+
+.checkImage{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.input-hidden {
+    position: absolute;
+    left: -9999px;
+  }
+  
+  input[type=radio]:checked + label>img {
+    border: 1px solid #fff;
+    box-shadow: 0 0 3px 3px #090;
+  }
+  
+  /* Stuff after this is only to make things more pretty */
+  input[type=radio] + label>img {
+    border: 1px dashed #444;
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+    transition: 500ms all;
+  }
+  
+
+.formulaire{
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.formulaire h1{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 0em;
+}
+
+.formulaire h2{
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #828282;
+}
 /* CHAT */
 .chat{
     display: grid;
@@ -20,12 +129,12 @@ ul{
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    background-color: #070600;
+    color: #ffffffff;
 
 }
 .namesList{
-    background-color: #fff;
     border-right: 2px solid #f4f7f6
-
 }
 
 .searchName{
@@ -45,14 +154,12 @@ ul{
 .userList{
     display: flex;
     width: 100%;
-    padding: 5px;
-    margin-bottom: 5px;
     cursor: pointer;
   
 }
 
 .userList:hover{
-    background-color: #efefef;
+    background-color: #222222;
 }
 .userListInfo{
     display: flex;
@@ -61,10 +168,8 @@ ul{
 }
 .userList img{
     width: 60px;
+    height: 60px;
     border-radius: 50%;
-}
-.userListName{
-    font-size: 1.5rem;
 }
 
 
@@ -73,10 +178,17 @@ ul{
 .chatContent{
     display: grid;
     grid-template-rows: 1fr 8fr 1fr;
+    
 }
 .chatBar{
     display: flex;
+    justify-content: space-between;
     border-bottom: 2px solid #f4f7f6
+}
+.deconnexion{
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
 }
 .bar{
     display: flex;
@@ -136,7 +248,7 @@ ul{
 
 
 .messageContent .message-data-time {
-    color: #434651;
+    color: #ffffffff;
     padding-left: 6px
 }
 
@@ -165,7 +277,9 @@ ul{
 }
 
 .messageContent .my-message {
-    background: #00e676;
+    background: #d9fdd3;
+    color: #000;
+    margin-right: 10px;
 }
 
 .messageContent .my-message:after {
@@ -177,7 +291,7 @@ ul{
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-bottom-color: #00e676;
+    border-bottom-color: #d9fdd3;
     border-width: 10px;
     margin-left: -10px
 }
@@ -198,16 +312,20 @@ ul{
     padding: 20px
 }
 
-.formulaire{
-    display: flex;
-    flex-direction: column;
-  
-    max-width: 1200px;
-    margin: 50px auto;
-}
-
-.formulaire h1{
-
-    text-align: center;
-}
 /* CHAT */
+
+/* scrollbar style */
+::-webkit-scrollbar {
+    width: 5px; /* width of the entire scrollbar */
+  }
+  
+::-webkit-scrollbar-track {
+    background: #000; /* color of the tracking area */
+  }
+  
+::-webkit-scrollbar-thumb {
+    background-color: rgb(239, 239, 245); /* color of the scroll thumb */
+    border-radius: 5px; /* roundness of the scroll thumb */
+    border: 3px solid rgb(165, 164, 163); /* creates padding around scroll thumb */
+  }
+/* scrollbar style */

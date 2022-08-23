@@ -1,26 +1,42 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
+import React, { useEffect } from 'react'
+import { useState} from 'react';
 import { message, Button, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
-import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
-import { addUserAsync, selectData } from '../features/userSlice';
+import {addUserAsync, reset } from '../features/userSlice';
 import { useSelector } from 'react-redux';
 import { AppDispatch } from '../app/store';
+import { User } from '../types/User';
+import { FaUserAlt} from "react-icons/fa";
+// const api = "http://localhost:8080/api/user/";
 
-const api = "http://localhost:8080/api/user/";
-
+const initialState: any = {
+    pseudo: '',
+    email: '',
+    password: '',
+    token: ""
+};
 const Inscription = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const allDatas = useSelector(selectData);
     const [form] = Form.useForm();
-    const [values, setValues] = useState({
+    const [values, setValues] = useState<User>({
+        _id: '',
         pseudo: '',
         email: '',
-        password: ''
+        password: '',
+        token: ''
     })
+    const { loading } = useSelector((state:any) => state.users);
     useEffect(() => {
-        console.log(allDatas)
-   }, [allDatas])
+        if (loading === "failed") {
+            message.error("Champs vide ou Pseudo/Mail déjà existant!");
+            
+        }
+        if(loading === "succeeded"){
+            message.success('Inscription terminée!');
+        }
+        dispatch(reset())
+      }, [loading, dispatch])
+    
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.persist();
@@ -31,41 +47,17 @@ const Inscription = () => {
         }));
     };
     const onFinish = (values :any) => {
-        console.log('Success:', values);
+                       
+        dispatch(addUserAsync(values));
+        setValues(initialState);
+        form.resetFields();
       };
-    
-      const onFinishFailed = (errorInfo: ValidateErrorEntity) => {
-        console.log('Failed:', errorInfo);
-      };
-    const registerUser = (e: any) => {
-        e.preventDefault()
-        
-        if(!values.pseudo || !values.email || !values.password){
-            message.error('Remplissez tous les champs');
-
-        }
-        else{
-
-                
-                dispatch(addUserAsync(values))
-                values.pseudo = " "
-                values.email = " "
-                values.password = " "
-                form.resetFields();
-            
-           
-            message.success('Inscription terminée!');
-        }
-
-
-    }
-
-    
     
     return ( 
         <>
             <div className="formulaire">
-                <h1>Formulaire inscription</h1>
+                <h1 className='titreInscription'><FaUserAlt /> FORMUMLAIRE D'INSCRIPTION</h1>
+                <h2 className='sousTitreInscription'>Creez un compte s'il vous plait !</h2>
                 <Form
                     className='formu'
                     form={form}
@@ -80,19 +72,14 @@ const Inscription = () => {
                         remember: true,
                     }}
                     onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
                     autoComplete="off"
                 >
                     <Form.Item
                         label="Pseudo"
                         name="pseudo"
-                        rules={[
-                        {
-                            required: true,
-                        },
-                        ]}
+                        rules={[{ required: true, message: "S'il vous plait votre pseudo" }]}
                     >
-                        <Input size="large" name="pseudo" onChange={handleInputChange}/>
+                        <Input className='an' size="large" name="pseudo" value={values.pseudo} onChange={handleInputChange}/>
                     </Form.Item>
                     <Form.Item
                         label="Email"
@@ -108,7 +95,7 @@ const Inscription = () => {
                         },
                         ]}
                     >
-                        <Input size="large" name="email" onChange={handleInputChange}/>
+                        <Input className='an' size="large" name="email" value={values.email} onChange={handleInputChange}/>
                     </Form.Item>
 
                     <Form.Item
@@ -120,7 +107,7 @@ const Inscription = () => {
                         },
                         ]}
                     >
-                        <Input.Password size="large" name='password' onChange={handleInputChange}/>
+                        <Input.Password  size="large" name='password' value={values.password} onChange={handleInputChange}/>
                     </Form.Item>
 
                 <Form.Item
@@ -129,14 +116,47 @@ const Inscription = () => {
                     span: 16,
                     }}
                 >
-                    <Button type="primary" htmlType="submit" onClick={registerUser}>
-                    Submit                   
+                <div className='checkImage'>
+                    <input 
+                        type="radio" name="emotion" 
+                        id="sad" className="input-hidden" />
+                        <label htmlFor="sad">
+                        <img 
+                            src="https://www.bootdey.com/img/Content/avatar/avatar1.png" 
+                            alt="I'm sad" />
+                        </label>
+
+                    <input 
+                        type="radio" name="emotion"
+                        id="happy" className="input-hidden" />
+                        <label htmlFor="happy">
+                        <img 
+                            src="https://www.bootdey.com/img/Content/avatar/avatar2.png" 
+                            alt="I'm happy" />
+                        </label>
+                    <input 
+                        type="radio" name="emotion"
+                        id="happyd" className="input-hidden" />
+                        <label htmlFor="happydz">
+                        <img 
+                            src="https://www.bootdey.com/img/Content/avatar/avatar2.png" 
+                            alt="I'm happy" />
+                        </label>
+                    <input 
+                        type="radio" name="emotion"
+                        id="happya" className="input-hidden" />
+                        <label htmlFor="happylk">
+                        <img 
+                            src="https://www.bootdey.com/img/Content/avatar/avatar2.png" 
+                            alt="I'm happy" />
+                        </label>
+                </div>
+                    <Button type="primary" htmlType="submit" onChange={onFinish} style={{backgroundColor: "#000000", borderColor:"#000000"}}>
+                    S'INSCRIRE                
                     </Button>
                 </Form.Item>
                 </Form>               
-                 {/* {allDatas.map((item:any) => 
-                <p  key="{item.pseudo}">{item.email}</p>
-                )} */}
+          
             </div>
 
         </>

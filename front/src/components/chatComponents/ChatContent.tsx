@@ -1,16 +1,26 @@
 import React, { useState } from 'react'
-import { Form, Input } from 'antd';
-// import background from "../../assets/img/bg.jpg"
+import { Button, Form, Input } from 'antd';
+import { useDispatch } from 'react-redux';
+import { deconnexion, reset } from '../../features/userSlice';
+import { AppDispatch } from '../../app/store';
+import { FaSignOutAlt } from 'react-icons/fa';
+
+
 
 type SizeType = Parameters<typeof Form>[0]['size'];
 const ChatContent = () => {
     const [componentSize, setComponentSize] = useState<SizeType | 'default'>('default');
-
     const onFormLayoutChange = ({ size }: { size: SizeType }) => {
       setComponentSize(size);
     };
+    const dispatch = useDispatch<AppDispatch>();
+
+    const deconnecter = () => {
+        dispatch(deconnexion());
+        dispatch(reset()) ;
+        window.location.reload();
+    }
   return (
-    // style={{backgroundSize:"no-repeat", backgroundImage: `url(${background})` }}
     <div className='chatContent'>
         <div className="chatBar">
             <div className='bar'>
@@ -20,6 +30,11 @@ const ChatContent = () => {
                     <span>Last seen: 2 hours ago</span>
                 </div>
             </div>
+            <div className="deconnexion">
+                <Button type="primary"  danger onClick={deconnecter}>
+                     DECONNEXION
+                </Button>
+            </div>
         </div>
         <div className="messageContent" >
                     <ul>
@@ -28,6 +43,78 @@ const ChatContent = () => {
                                 <span className="message-data-time">10:10 AM, Today</span>
                             </div>
                             <div className="message other-message"> Hi Aiden, how are you? How is the project coming along? </div>
+                        </li>
+                        <li className="clearfix user">
+                            <div className="message-data">
+                                <span className="message-data-time">10:15 AM, Today</span>
+                            </div>
+                            <div className="message my-message">Project has been already finished and I have results to show you.</div>
+                        </li>
+                        <li className="clearfix user">
+                            <div className="message-data">
+                                <span className="message-data-time">10:15 AM, Today</span>
+                            </div>
+                            <div className="message my-message">Project has been already finished and I have results to show you.</div>
+                        </li>
+                        <li className="clearfix user">
+                            <div className="message-data">
+                                <span className="message-data-time">10:15 AM, Today</span>
+                            </div>
+                            <div className="message my-message">Project has been already finished and I have results to show you.</div>
+                        </li>
+                        <li className="clearfix user">
+                            <div className="message-data">
+                                <span className="message-data-time">10:15 AM, Today</span>
+                            </div>
+                            <div className="message my-message">Project has been already finished and I have results to show you.</div>
+                        </li>
+                        <li className="clearfix user">
+                            <div className="message-data">
+                                <span className="message-data-time">10:15 AM, Today</span>
+                            </div>
+                            <div className="message my-message">Project has been already finished and I have results to show you.</div>
+                        </li>
+                        <li className="clearfix user">
+                            <div className="message-data">
+                                <span className="message-data-time">10:15 AM, Today</span>
+                            </div>
+                            <div className="message my-message">Project has been already finished and I have results to show you.</div>
+                        </li>
+                        <li className="clearfix user">
+                            <div className="message-data">
+                                <span className="message-data-time">10:15 AM, Today</span>
+                            </div>
+                            <div className="message my-message">Project has been already finished and I have results to show you.</div>
+                        </li>
+                        <li className="clearfix user">
+                            <div className="message-data">
+                                <span className="message-data-time">10:15 AM, Today</span>
+                            </div>
+                            <div className="message my-message">Project has been already finished and I have results to show you.</div>
+                        </li>
+                        <li className="clearfix user">
+                            <div className="message-data">
+                                <span className="message-data-time">10:15 AM, Today</span>
+                            </div>
+                            <div className="message my-message">Project has been already finished and I have results to show you.</div>
+                        </li>
+                        <li className="clearfix user">
+                            <div className="message-data">
+                                <span className="message-data-time">10:15 AM, Today</span>
+                            </div>
+                            <div className="message my-message">Project has been already finished and I have results to show you.</div>
+                        </li>
+                        <li className="clearfix user">
+                            <div className="message-data">
+                                <span className="message-data-time">10:15 AM, Today</span>
+                            </div>
+                            <div className="message my-message">Project has been already finished and I have results to show you.</div>
+                        </li>
+                        <li className="clearfix user">
+                            <div className="message-data">
+                                <span className="message-data-time">10:15 AM, Today</span>
+                            </div>
+                            <div className="message my-message">Project has been already finished and I have results to show you.</div>
                         </li>
                         <li className="clearfix user">
                             <div className="message-data">
@@ -52,7 +139,7 @@ const ChatContent = () => {
                 size="large"
         >
                 <Form.Item>
-                    <Input  />
+                    <Input placeholder='Saisissez votre message' />
                 </Form.Item>
         </Form>
     </div>

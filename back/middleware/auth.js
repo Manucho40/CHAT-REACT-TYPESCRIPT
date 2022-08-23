@@ -1,20 +1,29 @@
 const jwt = require("jsonwebtoken");
+const asyncHandler = require('express-async-handler');
+const User = require("../models/userModel")
 
-const config = process.env;
+const verifyToken = asyncHandler(async(req, res, next) => {
+  let token
 
-const verifyToken = (req, res, next) => {
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
-  
-    if (!token) {
-      return res.status(403).send("Un token est requit pour l'authentification");
+  if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+    try{
+      token = req.headers.authorization.split(' ')[1]
+
+      const decoded = jwt.verify(token, process.env.TOKEN_KEY)
+
+      req.User = await User.findById(decoded.id).select('-password');
+      next()
+    }catch(error){
+      console.log(error)
+       res.status(401)
+       throw new Error("Pas d'autorisation !")
     }
-    try {
-      const decoded = jwt.verify(token, config.TOKEN_KEY);
-      req.user = decoded;
-    } catch (err) {
-      return res.status(401).send("Invalid Token");
-    }
-    return next();
-  };
-  
+  }
+
+
+  if(!token){
+    res.status(401)
+    throw new Error("Pas d'aurorisation, pas de Token!")    
+  }
+})
   module.exports = verifyToken;

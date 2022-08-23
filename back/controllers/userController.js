@@ -4,15 +4,15 @@ const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
 
 const getWelcome = asyncHandler(async(req,res) => {
-    res.status(200).send("Welcome 🙌 ");
+    res.status(200).json(req.user)
 })
-const getUser = asyncHandler( async(req, res) =>{
+const getUser  = asyncHandler( async(req, res) =>{
     const users = await User.find()
        
     res.status(200).json(users)
 })
 
-const postUser = asyncHandler(async(req, res) => {
+const registerUser = asyncHandler(async(req, res) => {
     const {pseudo, email, password} = req.body;
     //Vérifier si les champs sont remplits
     if(!pseudo || !email || !password){
@@ -43,9 +43,13 @@ const postUser = asyncHandler(async(req, res) => {
       );
       user.token = toke;
     await user.save();
-    console.log(user.token)
     if(user){
-        res.status(201).json(user)
+        res.status(201).json({
+            _id: user.id,
+            pseudo: user.pseudo,
+            email: user.email,
+            token: user.token
+          })
     }else{
         res.status(400)
         throw new Error('Invalid User data')
@@ -54,13 +58,12 @@ const postUser = asyncHandler(async(req, res) => {
 })
 
 const loginUser = asyncHandler( async(req, res)  => {
-    try {
         const {pseudo, password}= req.body;
         if(!(pseudo && password)){
             res.status(400).send("Tous les champs sont requis");
         }
         const user = await User.findOne({pseudo});
-
+        
         if(user && (await bcrypt.compare(password, user.password))){
             const token = jwt.sign(
                 { user_id: user._id, pseudo },
@@ -71,13 +74,12 @@ const loginUser = asyncHandler( async(req, res)  => {
               );
               user.token = token;
               res.status(200).json(user); 
-        }
-
-    res.status(400).send("Invalid Credentials");
-        
-    } catch (err) {
-        console.log(err);
-    }
+        }else{
+            res.status(400)
+            throw new Error('Les identifiants ne correspondent pas !')
+    
+        }        
+    
 
     
 })
@@ -98,7 +100,7 @@ const deleteUser = asyncHandler(async(req, res) => {
 module.exports = {
     getWelcome,
     getUser,
-    postUser,
+    registerUser,
     loginUser,
     deleteUser
 }
