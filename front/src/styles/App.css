@@ -44,12 +44,7 @@
     text-align: center;
   }
 
-  .contain{
-    width: 100%;
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
+
   .header ul li a {
     display: flex;
     align-items: center;
@@ -76,11 +71,11 @@
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2) !important;
 } */
 
-.checkImage{
+/* .checkImage{
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-}
+} */
 .input-hidden {
     position: absolute;
     left: -9999px;
@@ -94,8 +89,8 @@
   /* Stuff after this is only to make things more pretty */
   input[type=radio] + label>img {
     border: 1px dashed #444;
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
     margin: 10px;
     transition: 500ms all;
   }
@@ -104,8 +99,10 @@
 .formulaire{
     display: flex;
     flex-direction: column;
-    max-width: 1200px;
-    margin: 50px auto;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
     text-align: center;
 }
 
@@ -121,6 +118,19 @@
     font-size: 2rem;
     font-weight: 700;
     color: #828282;
+}
+.sousTitreInscription{
+    font-weight: 700;
+    color: #828282;
+    font-size: 1.3rem !important;
+}
+.formu{
+    /* background-color: #090; */
+    text-align: justify;
+}
+
+#basic > div:nth-child(4) > div{
+    margin: 0 auto;
 }
 /* CHAT */
 .chat{
@@ -155,6 +165,7 @@
     display: flex;
     width: 100%;
     cursor: pointer;
+    padding: 10px;
   
 }
 
@@ -177,8 +188,12 @@
 
 .chatContent{
     display: grid;
-    grid-template-rows: 1fr 8fr 1fr;
+    grid-template-rows: 1fr 7fr 2fr;
     
+}
+
+.menuBurger{
+    display: none;
 }
 .chatBar{
     display: flex;
@@ -216,16 +231,14 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: flex-end;
     width: 100%;
     overflow-y: scroll;
     height: 75vh;
-
-    
 }
 
 .user{
     align-self: end;
-   
     
 }
 .messageContent ul li {
@@ -298,7 +311,7 @@
 
 .messageContent .other-message {
     background: #efedaf;
-    text-align: right
+    text-align: justify;
 }
 
 .messageContent .other-message:after {
@@ -306,10 +319,12 @@
     left: 93%
 }
 .text-right{
-    text-align:end;
+    text-align: end;
 }
-.messageContent .chat-message {
-    padding: 20px
+
+
+.clearfix{
+    width: 400px;
 }
 
 /* CHAT */
@@ -329,3 +344,149 @@
     border: 3px solid rgb(165, 164, 163); /* creates padding around scroll thumb */
   }
 /* scrollbar style */
+
+
+
+/* RESPONSIVE */
+/* MOBILE */
+@media (max-width: 480px)
+{
+    /* Vos règles CSS pour les mobiles ici */
+    .chat{
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background-color: #070600;
+        color: #ffffffff;
+    
+    }
+    .namesList{
+        position: fixed;
+        z-index: 1;
+        left: -300px;
+        background-color: #000;
+        transition: 500ms ease-out;  
+    }
+    .openMenu{
+        position: fixed;
+        z-index: 1;
+        left: 0px;
+        transition: 500ms ease-in-out;  
+        background-color: #000;
+  
+    }
+    /* .chatContent{
+        display: grid;
+        grid-template-rows: 1fr 8fr 1fr;
+        width: 100%;
+        
+    } */
+    .chatBar{
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 2px solid #f4f7f6;
+        width: 100%;
+    }
+    .bar{
+        display: flex;
+        padding: 5px 10px;
+    }
+    .bar img{
+        width: 60px;
+        border-radius: 50%;
+    }
+    .barInfos{
+        display: flex;
+        flex-direction: column;
+        padding-left: 10px;
+    }
+    .deconnexion{
+        display: none;
+    }
+    .menuBurger{
+        display: flex;
+        align-items: center;
+        padding-right: 30px;
+        font-size: 3rem;
+        color: rgb(184, 184, 184);
+        margin: 0px;
+    }
+    
+    .messageContent ul {
+        padding-right: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 75vh;
+
+    }
+    
+    .user{
+        align-self: center;
+        
+    }
+    .messageContent {
+        padding: 5px;    
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        width: 100%;
+
+    }
+    .clearfix{
+        width: 350px;
+    }
+
+    .bar{
+        display: flex;
+        padding: 5px 20px;
+        margin-top: 15px;
+    }
+    .bar img{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    .barInfos{
+        display: flex;
+        flex-direction: column;
+        padding-left: 10px;
+    }
+    
+    
+}
+
+/* HAUTEUR D'ECRAN INFERIEUR A 700PX */
+@media (max-height: 700px){
+ 
+    .clearfix{
+        width: 250px;
+    }
+
+    .messageContent .my-message {
+        background: #d9fdd3;
+        color: #000;
+        margin-right: 10px;
+        
+    }
+    .bar{
+        display: flex;
+        padding: 5px 10px;
+    }
+    .bar img{
+        width: 40px;
+        border-radius: 50%;
+    }
+    .barInfos{
+        display: flex;
+        flex-direction: column;
+        padding-left: 10px;
+    }
+   
+    
+  
+}
+/* MOBILE */
+/* RESPONSIVE */

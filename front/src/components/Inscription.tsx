@@ -13,7 +13,7 @@ const initialState: any = {
     pseudo: '',
     email: '',
     password: '',
-    token: ""
+    avatar: "https://www.bootdey.com/img/Content/avatar/avatar6.png"
 };
 const Inscription = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -23,7 +23,7 @@ const Inscription = () => {
         pseudo: '',
         email: '',
         password: '',
-        token: ''
+        avatar: 'https://www.bootdey.com/img/Content/avatar/avatar6.png'
     })
     const { loading } = useSelector((state:any) => state.users);
     useEffect(() => {
@@ -46,8 +46,7 @@ const Inscription = () => {
             [name]: event.target.value,
         }));
     };
-    const onFinish = (values :any) => {
-                       
+    const onFinish = () => {
         dispatch(addUserAsync(values));
         setValues(initialState);
         form.resetFields();
@@ -57,13 +56,13 @@ const Inscription = () => {
         <>
             <div className="formulaire">
                 <h1 className='titreInscription'><FaUserAlt /> FORMUMLAIRE D'INSCRIPTION</h1>
-                <h2 className='sousTitreInscription'>Creez un compte s'il vous plait !</h2>
+                <h2>Creez un compte s'il vous plait !</h2>
                 <Form
                     className='formu'
                     form={form}
                     name="basic"
                     labelCol={{
-                        span: 8,
+                        span: 2,
                     }}
                     wrapperCol={{
                         span: 30,
@@ -116,42 +115,36 @@ const Inscription = () => {
                     span: 16,
                     }}
                 >
-                <div className='checkImage'>
-                    <input 
-                        type="radio" name="emotion" 
-                        id="sad" className="input-hidden" />
-                        <label htmlFor="sad">
+                <h3 className='sousTitreInscription'>Selectionnez votre avatar !</h3>
+                <div className='checkImage' onChange={handleInputChange}>
+                    <input type="radio" name="avatar" id="man1" className="input-hidden" value="https://www.bootdey.com/img/Content/avatar/avatar1.png"/>
+                        <label htmlFor="man1">
                         <img 
                             src="https://www.bootdey.com/img/Content/avatar/avatar1.png" 
                             alt="I'm sad" />
                         </label>
 
-                    <input 
-                        type="radio" name="emotion"
-                        id="happy" className="input-hidden" />
-                        <label htmlFor="happy">
-                        <img 
-                            src="https://www.bootdey.com/img/Content/avatar/avatar2.png" 
+                    <input type="radio" name="avatar" id="girl1" className="input-hidden" value="https://www.bootdey.com/img/Content/avatar/avatar3.png"/>
+                        <label htmlFor="girl1">
+                        <img
+                            src="https://www.bootdey.com/img/Content/avatar/avatar3.png" 
                             alt="I'm happy" />
                         </label>
-                    <input 
-                        type="radio" name="emotion"
-                        id="happyd" className="input-hidden" />
-                        <label htmlFor="happydz">
-                        <img 
-                            src="https://www.bootdey.com/img/Content/avatar/avatar2.png" 
+                    <input type="radio" name="avatar" id="man2" className="input-hidden" value="https://www.bootdey.com/img/Content/avatar/avatar7.png"/>
+                        <label htmlFor="man2">
+                        <img
+                            src="https://www.bootdey.com/img/Content/avatar/avatar7.png" 
                             alt="I'm happy" />
                         </label>
-                    <input 
-                        type="radio" name="emotion"
-                        id="happya" className="input-hidden" />
-                        <label htmlFor="happylk">
-                        <img 
-                            src="https://www.bootdey.com/img/Content/avatar/avatar2.png" 
+                    <input type="radio" name="avatar" id="girl2" className="input-hidden" value="https://www.bootdey.com/img/Content/avatar/avatar8.png"/>
+                        <label htmlFor="girl2">
+                        <img
+                            src="https://www.bootdey.com/img/Content/avatar/avatar8.png" 
                             alt="I'm happy" />
                         </label>
-                </div>
-                    <Button type="primary" htmlType="submit" onChange={onFinish} style={{backgroundColor: "#000000", borderColor:"#000000"}}>
+
+                </div> <br />
+                    <Button type="primary" htmlType="submit" onChange={onFinish} style={{backgroundColor: "#000000", borderColor:"#000000", width: "100%"}}>
                     S'INSCRIRE                
                     </Button>
                 </Form.Item>

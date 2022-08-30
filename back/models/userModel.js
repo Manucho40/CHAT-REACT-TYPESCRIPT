@@ -16,10 +16,15 @@ const userSchema = mongoose.Schema(
             type: String,
             required: [true, 'Please add a password']
         },
+        avatar: {
+            type: String,
+            // required: [true, 'Please add a text token']
+        },
         token: {
             type: String,
             // required: [true, 'Please add a text token']
         },
+     
     
     },
     {

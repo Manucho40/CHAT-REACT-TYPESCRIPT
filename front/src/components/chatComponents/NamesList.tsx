@@ -35,11 +35,16 @@ const NamesList = () => {
         .then((response) => response.data)
         .then((data) => {
            setUsers(data);
+           return true
         })
         .catch((err) => {
            console.log(err.message);
+           return false
         });
   }, []);
+    const namelist = document.getElementById('nameliste') as HTMLElement;
+
+  
 
   const pseudoFirstLetterMaj = (pseudo:string) => {
     let first = '';
@@ -54,7 +59,7 @@ const NamesList = () => {
  
 
   return (
-    <div className='namesList'>
+    <div className='namesList' id='nameliste'>
       <div className='searchName'>
       <Search placeholder="input search text" onSearch={onSearch} enterButton />
       </div>
@@ -62,7 +67,7 @@ const NamesList = () => {
          {
           users.map((item) => 
             <li key={item._id} className='userList'>
-            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="" />
+            <img src={item.avatar} alt="" />
             <div className='userListInfo'>
               <span className='userListName'>{pseudoFirstLetterMaj(item.pseudo)}</span>
               <span className='userListName'>Online</span>

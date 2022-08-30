@@ -55,13 +55,13 @@ useEffect(() => {
   return (
     <>
     <Header />
-    <div className='contain formulaire'>
+    <div className='formulaire'>
         <h1 className='titreInscription'><FaSignInAlt /> FORMUMLAIRE DE CONNEXION</h1>
         <h2 className='sousTitreInscription'>Connectez Vous Pour Tchater !</h2>
 
     <Form
       name="basic"
-      labelCol={{ span: 8 }}
+      labelCol={{ span: 4 }}
       wrapperCol={{ span: 16 }}
       initialValues={{ remember: true }}
       onFinish={onFinish}
@@ -88,8 +88,8 @@ useEffect(() => {
         <Checkbox>Remember me</Checkbox>
       </Form.Item> */}
 
-      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button onChange={onFinish} type="primary" htmlType="submit" style={{backgroundColor: "#000000", borderColor:"#000000"}}>
+      <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+        <Button onChange={onFinish} type="primary" htmlType="submit" style={{backgroundColor: "#000000", borderColor:"#000000", width: "100%"}}>
           Connexion
         </Button>
       </Form.Item>

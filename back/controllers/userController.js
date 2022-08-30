@@ -6,6 +6,7 @@ const User = require('../models/userModel')
 const getWelcome = asyncHandler(async(req,res) => {
     res.status(200).json(req.user)
 })
+
 const getUser  = asyncHandler( async(req, res) =>{
     const users = await User.find()
        
@@ -13,7 +14,7 @@ const getUser  = asyncHandler( async(req, res) =>{
 })
 
 const registerUser = asyncHandler(async(req, res) => {
-    const {pseudo, email, password} = req.body;
+    const {pseudo, email, password, avatar} = req.body;
     //Vérifier si les champs sont remplits
     if(!pseudo || !email || !password){
         res.status(400)
@@ -33,6 +34,7 @@ const registerUser = asyncHandler(async(req, res) => {
         pseudo,
         email: email.toLowerCase(),
         password: hashedPassword,
+        avatar,
     })
     const toke = jwt.sign(
         { user_id: user._id, email },
@@ -48,7 +50,8 @@ const registerUser = asyncHandler(async(req, res) => {
             _id: user.id,
             pseudo: user.pseudo,
             email: user.email,
-            token: user.token
+            token: user.token,
+            avatar: user.avatar
           })
     }else{
         res.status(400)

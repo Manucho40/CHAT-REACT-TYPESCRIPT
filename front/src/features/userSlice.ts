@@ -95,9 +95,6 @@ export const addUserAsync = createAsyncThunk(
         try{
             //addUser(data)
             const response = await axios.post(API, data);
-            // if(response.data){
-            //     localStorage.setItem('user', JSON.stringify(response.data))
-            // }
             return response.data
         }catch (error :any) {
             const message =
