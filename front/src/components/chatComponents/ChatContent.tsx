@@ -69,7 +69,7 @@ const ChatContent = ({handleMenu} : Props) => {
                 </div>
             </div>
             <div className="deconnexion">
-                <Button type="primary"  danger onClick={deconnecter}>
+                <Button type="primary" onClick={deconnecter} style={{backgroundColor: "#be2d2d", borderColor:"#be2d2d"}}>
                      DECONNEXION
                 </Button>
             </div>
@@ -105,8 +105,8 @@ const ChatContent = ({handleMenu} : Props) => {
                 onSubmitCapture={envoiMessage}
                 size="large"
         >
-                <Form.Item className='sendMesage'>
-                    <Input placeholder='Saisissez votre message' name='message' value={message.text} onChange={handleMessage} />
+                <Form.Item  className='sendMesage'>
+                    <Input  placeholder='Saisissez votre message' name='message' value={message.text} onChange={handleMessage} />
                 </Form.Item>
         </Form>
     </div>

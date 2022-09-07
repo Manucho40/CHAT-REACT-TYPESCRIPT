@@ -170,8 +170,13 @@
 }
 
 .userList:hover{
-    background-color: #222222;
+    background-color: #be2d2d;
 }
+
+.selectTalk{
+    background-color: #be2d2d !important;
+}
+
 .userListInfo{
     display: flex;
     flex-direction: column;

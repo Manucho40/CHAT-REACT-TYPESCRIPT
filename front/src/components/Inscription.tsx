@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useState} from 'react';
 import { message, Button, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
