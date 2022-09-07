@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Input } from 'antd';
 import axios from 'axios';
-import { User } from '../../types/User';
+import { UserList } from '../../types/UserList';
+// import { User } from '../../types/User';
+
 
 
 const { Search } = Input;
@@ -24,37 +26,47 @@ const avatarMen = [
     link: "https://www.bootdey.com/img/Content/avatar/avatar4.png"
   }
 ]
-function getRandomInt(max: number) {
-  return Math.floor(Math.random() * max);
-}
 
 const NamesList = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  useEffect(() => {
-     axios.get('http://localhost:8080/api/user')
-        .then((response) => response.data)
-        .then((data) => {
-           setUsers(data);
-           return true
-        })
-        .catch((err) => {
-           console.log(err.message);
-           return false
-        });
-  }, []);
-    const namelist = document.getElementById('nameliste') as HTMLElement;
-
+  const [contacts, setContacts] = useState<UserList[]>([]);
+  const storage: string | null = localStorage.getItem('user');
   
+  useEffect(() => {
+    if(typeof(storage) == "string"){
+      const idUserConnect = JSON.parse(storage)._id;
+      axios.get(`http://localhost:8080/api/users/${idUserConnect}`)
+      .then((response) => response.data)
+      .then((data) => {
+        setContacts(data);
+         return true
+      })
+      .catch((err) => {
+         console.log(err.message);
+         return false
+      });
+    }else{
+      console.log("storage is null")
+    }
+    
+  }, []);
+  console.log(contacts);
+  
+    const namelist = document.getElementById('nameliste') as HTMLElement;
+    const pseudoFirstLetterMaj = (pseudo:string) => {
+      let first = '';
+      let sup = '';
+        for(let i = 0; i < pseudo.length; i++){
+        first = pseudo[0].toUpperCase();
+          sup = first + pseudo.slice(1)
+        }
+        return sup
 
-  const pseudoFirstLetterMaj = (pseudo:string) => {
-    let first = '';
-    let sup = '';
-      for(let i = 0; i < pseudo.length; i++){
-       first = pseudo[0].toUpperCase();
-        sup = first + pseudo.slice(1)
-      }
-      return sup
-  }
+    }
+
+  // const selectTalk = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   li.classList.toggle('selectTalk');
+  //   console.log(e.target)
+  // }
 
  
 
@@ -65,8 +77,8 @@ const NamesList = () => {
       </div>
       <ul className='ulname'> 
          {
-          users.map((item) => 
-            <li key={item._id} className='userList'>
+          contacts.map((item) => 
+            <li key={item._id} className='userList' >
             <img src={item.avatar} alt="" />
             <div className='userListInfo'>
               <span className='userListName'>{pseudoFirstLetterMaj(item.pseudo)}</span>

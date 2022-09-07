@@ -3,7 +3,7 @@ const router = express.Router() // Affectation de la méthode Router() dans la c
 const auth = require("../middleware/auth");
 // Utilisation du destructuring pour affecter les fonctions exporté du controllers userController dans des constantes
 const {getUser, registerUser, loginUser, deleteUser, getWelcome} = require('../controllers/userController')
-router.get('/user', getUser)
+router.get('/users/:id', getUser)
 router.post('/user', registerUser)
 router.post('/user/login', loginUser)
 router.delete('/user/:id', deleteUser)

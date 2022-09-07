@@ -7,10 +7,21 @@ const getWelcome = asyncHandler(async(req,res) => {
     res.status(200).json(req.user)
 })
 
-const getUser  = asyncHandler( async(req, res) =>{
-    const users = await User.find()
+const getUser  = asyncHandler( async(req, res, next) =>{
+    try {
+        const users = await User.find({_id: {$ne: req.params.id}}).select([
+            "_id",
+            "pseudo",
+            "email",
+            "avatar"
+        ])
+        res.status(200).json(users)
+    } catch (ex) {
+        next(ex)
+    }
+    // const users = await User.find()
        
-    res.status(200).json(users)
+    // res.status(200).json(users)
 })
 
 const registerUser = asyncHandler(async(req, res) => {
