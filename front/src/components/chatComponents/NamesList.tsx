@@ -1,72 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { Input } from 'antd';
-import axios from 'axios';
 import { UserList } from '../../types/UserList';
-// import { User } from '../../types/User';
 
 
 
 const { Search } = Input;
 const onSearch = (value: string) => console.log(value);
-const avatarMen = [
-  {
-    id: 1,
-    link: "https://www.bootdey.com/img/Content/avatar/avatar1.png"
-  },
-  {
-    id: 2,
-    link: "https://www.bootdey.com/img/Content/avatar/avatar2.png"
-  },
-  {
-    id: 3,
-    link: "https://www.bootdey.com/img/Content/avatar/avatar3.png"
-  },
-  {
-    id: 3,
-    link: "https://www.bootdey.com/img/Content/avatar/avatar4.png"
-  }
-]
-
-const NamesList = () => {
-  const [contacts, setContacts] = useState<UserList[]>([]);
-  const storage: string | null = localStorage.getItem('user');
-  
-  useEffect(() => {
-    if(typeof(storage) == "string"){
-      const idUserConnect = JSON.parse(storage)._id;
-      axios.get(`http://localhost:8080/api/users/${idUserConnect}`)
-      .then((response) => response.data)
-      .then((data) => {
-        setContacts(data);
-         return true
-      })
-      .catch((err) => {
-         console.log(err.message);
-         return false
-      });
-    }else{
-      console.log("storage is null")
+export interface ContactsProps{
+  contacts: UserList[];
+  contact: UserList;
+  changeChat: (item: UserList) => void;
+}
+export const pseudoFirstLetterMaj = (pseudo:string) => {
+  let first = '';
+  let sup = '';
+    for(let i = 0; i < pseudo.length; i++){
+    first = pseudo[0].toUpperCase();
+      sup = first + pseudo.slice(1)
     }
-    
-  }, []);
-  console.log(contacts);
-  
-    const namelist = document.getElementById('nameliste') as HTMLElement;
-    const pseudoFirstLetterMaj = (pseudo:string) => {
-      let first = '';
-      let sup = '';
-        for(let i = 0; i < pseudo.length; i++){
-        first = pseudo[0].toUpperCase();
-          sup = first + pseudo.slice(1)
-        }
-        return sup
+    return sup
 
-    }
+}
 
-  // const selectTalk = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   li.classList.toggle('selectTalk');
-  //   console.log(e.target)
-  // }
+const NamesList : FC<ContactsProps> = ({contacts, contact, changeChat }, ) => {
+  const [currIndex, setCurrIndex] = useState<number>(0);
+
+
 
  
 
@@ -77,8 +36,8 @@ const NamesList = () => {
       </div>
       <ul className='ulname'> 
          {
-          contacts.map((item) => 
-            <li key={item._id} className='userList' >
+          contacts.map((item, index) => 
+            <li key={index} className={`userList ${index === currIndex  ? "selectTalk" : ""}`}  onClick={() => {setCurrIndex(index); changeChat(item)}}>
             <img src={item.avatar} alt="" />
             <div className='userListInfo'>
               <span className='userListName'>{pseudoFirstLetterMaj(item.pseudo)}</span>

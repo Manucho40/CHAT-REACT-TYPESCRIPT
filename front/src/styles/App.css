@@ -139,12 +139,12 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background-color: #070600;
-    color: #ffffffff;
+    color: #000;
+    background-color: #fff;
 
 }
 .namesList{
-    border-right: 2px solid #f4f7f6
+    background-color: #fff;
 }
 
 .searchName{
@@ -166,15 +166,18 @@
     width: 100%;
     cursor: pointer;
     padding: 10px;
+    transition: 100ms;
   
 }
 
 .userList:hover{
-    background-color: #be2d2d;
+    background-color: #000;
+    color: #fff;
 }
 
 .selectTalk{
-    background-color: #be2d2d !important;
+    background-color: #000 !important;
+    color: #fff;
 }
 
 .userListInfo{
@@ -203,7 +206,10 @@
 .chatBar{
     display: flex;
     justify-content: space-between;
-    border-bottom: 2px solid #f4f7f6
+    align-items: center;
+    border-bottom: 2px solid #000000;  
+    background-color: #fff;
+
 }
 .deconnexion{
     display: flex;
@@ -216,6 +222,7 @@
 }
 .bar img{
     width: 60px;
+    height: 60px;
     border-radius: 50%;
 }
 .barInfos{
@@ -225,10 +232,11 @@
 }
 .messageContent{
     padding: 20px;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #000;
     display: flex;
     align-items: flex-end;
     width: 100%;
+    background-color: #fff;
    
 }
 .messageContent ul {
