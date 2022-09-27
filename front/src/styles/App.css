@@ -146,7 +146,17 @@
 .namesList{
     background-color: #fff;
 }
-
+.userConnecter{
+    padding: 20px;
+    background-color: #000;
+    color: #fff;
+}
+.userConnecter img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
 .searchName{
     padding: 20px;
 }
@@ -157,7 +167,7 @@
    align-items: flex-start;
    justify-content: flex-start;
    padding: 0px;
-   height: 93vh;
+   height: 80vh;
    overflow: hidden;
    overflow-Y: scroll;
 }
@@ -371,17 +381,19 @@
         width: 100vw;
         height: 100vh;
         overflow: hidden;
-        background-color: #070600;
-        color: #ffffffff;
+        background-color: #fff;
+        color: #000;
     
     }
     .namesList{
         position: fixed;
         z-index: 1;
         left: -300px;
-        background-color: #000;
+        background-color: #fff;
         transition: 500ms ease-out;  
     }
+
+    
     .openMenu{
         position: fixed;
         z-index: 1;

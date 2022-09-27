@@ -8,8 +8,9 @@ const { Search } = Input;
 const onSearch = (value: string) => console.log(value);
 export interface ContactsProps{
   contacts: UserList[];
-  contact: UserList;
+  currentContact: UserList;
   changeChat: (item: UserList) => void;
+  userConnect: UserList
 }
 export const pseudoFirstLetterMaj = (pseudo:string) => {
   let first = '';
@@ -22,7 +23,7 @@ export const pseudoFirstLetterMaj = (pseudo:string) => {
 
 }
 
-const NamesList : FC<ContactsProps> = ({contacts, contact, changeChat }, ) => {
+const NamesList : FC<ContactsProps> = ({contacts, currentContact, changeChat, userConnect}, ) => {
   const [currIndex, setCurrIndex] = useState<number>(0);
 
 
@@ -49,7 +50,11 @@ const NamesList : FC<ContactsProps> = ({contacts, contact, changeChat }, ) => {
          }
           
       </ul>
-
+      <div className="userConnecter">
+        <img src={userConnect.avatar} alt="" />
+        <span>{pseudoFirstLetterMaj(userConnect.pseudo)}</span>
+        
+      </div>   
     </div>
   )
 }

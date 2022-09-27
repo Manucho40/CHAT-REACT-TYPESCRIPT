@@ -1,25 +1,34 @@
 import axios from 'axios';
 import React, { FC, useEffect, useState } from 'react'
 import ChatContent from '../components/chatComponents/ChatContent';
+import DefaultChatContent from '../components/chatComponents/DefaultChatContent';
 import NamesList from '../components/chatComponents/NamesList';
 import { UserList } from '../types/UserList';
 
 const Chat : FC = () => {
 
+  const [userConnect, setUserConnect] = useState<UserList>({
+    _id: "",
+    pseudo: "",
+    email: "",
+    avatar: ""
 
+  })
   const [openMenu, setOpenMenu] = useState(false);
   const [contacts, setContacts] = useState<UserList[]>([]);
   const storage: string | null = localStorage.getItem('user');
-  const [contact, setContact] = useState<UserList>({
+  const [isNotSelect, setIsNotSelect] = useState<boolean>(false)
+  const [currentContact, setCurrentContact] = useState<UserList>({
     _id: "",
     pseudo: "",
     email: "",
     avatar: ""
   })
 
-  const changeChat = (contact:UserList) => {
-        setContact(contact)
-        console.log(contact)
+  const changeChat = (currentContact:UserList) => {
+    setCurrentContact(currentContact)
+        setIsNotSelect(true)
+        console.log(currentContact)
   }
   const handleMenu = () => {
     setOpenMenu(!openMenu);
@@ -27,6 +36,7 @@ const Chat : FC = () => {
 
 useEffect(() => {
   if(typeof(storage) == "string"){
+    setUserConnect(JSON.parse(storage))
     const idUserConnect = JSON.parse(storage)._id;
     axios.get(`http://localhost:8080/api/users/${idUserConnect}`)
     .then((response) => response.data)
@@ -56,10 +66,26 @@ useEffect(() => {
   }
 }, [openMenu])
 
+//CHATCONTENT
+const handleSendMsg = async (msg:string) => {
+     await axios.post("http://localhost:8080/api/messages/addmsg", {
+      from: userConnect._id,
+      to: currentContact._id,
+      message: msg,
+      
+     })
+}
   return (
     <div className="chat">
-      <NamesList contacts={contacts} contact={contact} changeChat={changeChat}/>
-      <ChatContent handleMenu={handleMenu} contacts={contacts} contact={contact}/>
+      <NamesList contacts={contacts} userConnect={userConnect}  currentContact={currentContact}  changeChat={changeChat}/>
+      {
+        isNotSelect === false ?
+        (              
+        <DefaultChatContent />
+        ):
+        <ChatContent handleMenu={handleMenu} handleSendMsg={handleSendMsg} userConnect={userConnect}  currentContact={currentContact} />
+
+      }
     </div>
   )
 }
