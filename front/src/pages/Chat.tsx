@@ -25,10 +25,11 @@ const Chat : FC = () => {
     avatar: ""
   })
 
+  const [messages, setMessages] = useState<[]>([])
+
   const changeChat = (currentContact:UserList) => {
     setCurrentContact(currentContact)
         setIsNotSelect(true)
-        console.log(currentContact)
   }
   const handleMenu = () => {
     setOpenMenu(!openMenu);
@@ -67,6 +68,17 @@ useEffect(() => {
 }, [openMenu])
 
 //CHATCONTENT
+useEffect( () => {
+  const getMessage = async () => {
+    const res = await axios.post("http://localhost:8080/api/messages/getmsg", {
+      from: userConnect._id,
+      to: currentContact._id,
+    });
+    setMessages(res.data);
+  }
+  getMessage()
+
+}, [currentContact])
 const handleSendMsg = async (msg:string) => {
      await axios.post("http://localhost:8080/api/messages/addmsg", {
       from: userConnect._id,
@@ -83,7 +95,7 @@ const handleSendMsg = async (msg:string) => {
         (              
         <DefaultChatContent />
         ):
-        <ChatContent handleMenu={handleMenu} handleSendMsg={handleSendMsg} userConnect={userConnect}  currentContact={currentContact} />
+        <ChatContent handleMenu={handleMenu} messages={messages} handleSendMsg={handleSendMsg} userConnect={userConnect}  currentContact={currentContact} />
 
       }
     </div>
