@@ -121,7 +121,7 @@ useEffect(() => {
       setArrivalMessage({fromSelf: false, message: msg})
     });
   }
-}, [])
+})
 
 useEffect(() => {
   arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);

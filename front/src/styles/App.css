@@ -309,7 +309,7 @@
     pointer-events: none;
     border-bottom-color: #fff;
     border-width: 10px;
-    margin-left: -10px
+    margin-left:-20px
 }
 
 .messageContent .my-message {

@@ -28,7 +28,7 @@ const server = app.listen(port, () => {
  global.onlineUsers = new Map();
  
 io.on("connection", (socket) => {
-    global.chatSocket = socket;
+    global.chasSocket = socket;
     socket.on("add-user", (userId) => {
         onlineUsers.set(userId, socket.id);
     })
@@ -36,6 +36,7 @@ io.on("connection", (socket) => {
     socket.on("send-msg", (data) => {
         const sendUserSocket = onlineUsers.get(data.to);
         if(sendUserSocket){
+            console.log({data})
             socket.to(sendUserSocket).emit("msg-recieve", data.message);
         }
     })

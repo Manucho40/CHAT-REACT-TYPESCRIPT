@@ -6,6 +6,8 @@ import { AppDispatch } from '../../app/store';
 import { FaAlignJustify, } from 'react-icons/fa';
 import { UserList } from '../../types/UserList';
 import { pseudoFirstLetterMaj } from './NamesList';
+import { v4 as uuidv4 } from "uuid"
+
 
 type Props = { 
     handleMenu: (event: React.MouseEvent<HTMLElement>) => void;
@@ -37,7 +39,6 @@ const ChatContent = ({handleMenu, currentContact, userConnect, handleSendMsg, me
     </div>
     <div className="message my-message">Projecthjf has been already finished and I have results to show you.</div>
     </li>`;
-    console.log(messages)
     function scrollToBottom() {
         const el = document.getElementById("messageContentUl") as HTMLElement;
           el.scrollTop = el.scrollHeight;
@@ -46,9 +47,7 @@ const ChatContent = ({handleMenu, currentContact, userConnect, handleSendMsg, me
         // event.preventDefault();
         if(msg.length > 0){
           handleSendMsg(msg);
-          setMsg('')
-          console.log("belelou");
-          
+          setMsg('')          
         }
       
       };
@@ -79,32 +78,19 @@ const ChatContent = ({handleMenu, currentContact, userConnect, handleSendMsg, me
             </div>
         </div>
         <div className="messageContent">
-                    <ul id='messageContentUl' >
-                        {/* <li className="clearfix invite">
-                            <div className="message-data text-right">
-                                <span className="message-data-time">10:10 AM, Today</span>
-                            </div>
-                            <div className="message other-message"> Hi Aiden, how are you? How is the project coming along? </div>
-                        </li> 
-                        
-                        <li className="clearfix user">
-                              <div className="message-data">
-                                  <span className="message-data-time">10:15 AM, Today</span>
-                              </div>
-                              <div className="message my-message">Projecthjf has been already finished and I have results to show you.</div>
-                        </li> */}
+                    <ul id='messageContentUl'>
                       {
-                        messages.map((item, index) => {
+                        messages.map((item) => {
                           return (
                                   item.fromSelf ? (
-                                    <li key={index} className="clearfix user">
+                                    <li key={uuidv4()} className="clearfix user">
                                       <div className="message-data">
                                           <span className="message-data-time">10:15 AM, Today</span>
                                       </div>
                                       <div className="message my-message">{item.message}</div>
                                     </li>)
                                     : (
-                                      <li className="clearfix invite">
+                                      <li key={uuidv4()} className="clearfix invite">
                                         <div className="message-data text-right">
                                             <span className="message-data-time">10:10 AM, Today</span>
                                         </div>
