@@ -1,12 +1,15 @@
 import axios from 'axios';
-import React, { FC, useEffect, useState } from 'react'
-import ChatContent from '../components/chatComponents/ChatContent';
+import React, { FC, useEffect, useState, useRef } from 'react'
+import ChatContent, { Message } from '../components/chatComponents/ChatContent';
 import DefaultChatContent from '../components/chatComponents/DefaultChatContent';
 import NamesList from '../components/chatComponents/NamesList';
 import { UserList } from '../types/UserList';
+import { io } from "socket.io-client";
+
 
 const Chat : FC = () => {
-
+  const socket = useRef() as any; 
+  const [arrivalMessage, setArrivalMessage] = useState<Message>();
   const [userConnect, setUserConnect] = useState<UserList>({
     _id: "",
     pseudo: "",
@@ -14,6 +17,7 @@ const Chat : FC = () => {
     avatar: ""
 
   })
+  const scrollRef = useRef() as any;
   const [openMenu, setOpenMenu] = useState(false);
   const [contacts, setContacts] = useState<UserList[]>([]);
   const storage: string | null = localStorage.getItem('user');
@@ -25,7 +29,7 @@ const Chat : FC = () => {
     avatar: ""
   })
 
-  const [messages, setMessages] = useState<[]>([])
+  const [messages, setMessages] = useState<Message[]>([])
 
   const changeChat = (currentContact:UserList) => {
     setCurrentContact(currentContact)
@@ -76,26 +80,76 @@ useEffect( () => {
     });
     setMessages(res.data);
   }
-  getMessage()
+  if(currentContact){
+
+    getMessage()
+  }
 
 }, [currentContact])
+
+useEffect(() => {
+  if(userConnect){
+    socket.current = io("http://localhost:8080");
+    socket.current.emit("add-user", userConnect._id) 
+  }
+}, [userConnect])
+
+
+
+
+
+
 const handleSendMsg = async (msg:string) => {
      await axios.post("http://localhost:8080/api/messages/addmsg", {
       from: userConnect._id,
       to: currentContact._id,
       message: msg,
-      
+     });
+     socket.current.emit("send-msg", {
+      to: currentContact._id,
+      from: userConnect._id,
+      message: msg
      })
+
+     const msgs: Message[] = [...messages];
+     msgs.push({fromSelf: true, message: msg})
+     setMessages(msgs);
 }
+useEffect(() => {
+  if(socket.current){
+    socket.current.on("msg-recieve", (msg: string) => {
+      setArrivalMessage({fromSelf: false, message: msg})
+    });
+  }
+}, [])
+
+useEffect(() => {
+  arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
+}, [arrivalMessage])
+
+useEffect(() => {
+  scrollRef.current?.scrollIntoView({behaviour: "smooth"});
+}, [messages]);
   return (
     <div className="chat">
-      <NamesList contacts={contacts} userConnect={userConnect}  currentContact={currentContact}  changeChat={changeChat}/>
+      <NamesList 
+        contacts={contacts} 
+        userConnect={userConnect}  
+        currentContact={currentContact}  
+        changeChat={changeChat}/>
       {
         isNotSelect === false ?
         (              
         <DefaultChatContent />
         ):
-        <ChatContent handleMenu={handleMenu} messages={messages} handleSendMsg={handleSendMsg} userConnect={userConnect}  currentContact={currentContact} />
+        <ChatContent 
+          handleMenu={handleMenu} 
+          messages={messages} 
+          handleSendMsg={handleSendMsg} 
+          userConnect={userConnect}  
+          currentContact={currentContact} 
+          socket={socket}
+          />
 
       }
     </div>
