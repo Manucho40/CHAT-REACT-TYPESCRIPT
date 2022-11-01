@@ -111,10 +111,25 @@ const deleteUser = asyncHandler(async(req, res) => {
 
 })
 
+
+const searchUser = asyncHandler(async(req, res) =>{
+    const {pseudo} = req.query;
+    let user = User.find().exec();
+    if(pseudo){
+        user = (await user).filter(item => item.pseudo.includes(pseudo))
+        console.log(user)
+    }else{
+        user = []
+    }
+    return res.status(200).json(user)
+})
+
+// searchUser()
 module.exports = {
     getWelcome,
     getUser,
     registerUser,
     loginUser,
-    deleteUser
+    deleteUser,
+    searchUser
 }

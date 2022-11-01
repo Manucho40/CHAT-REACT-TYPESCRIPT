@@ -1,11 +1,16 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { ChangeEvent, FC, useEffect, useState } from 'react'
 import { Input } from 'antd';
 import { UserList } from '../../types/UserList';
+import { FaPowerOff } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../app/store';
+import { deconnexion, reset } from '../../features/userSlice';
+import axios from 'axios';
+import { User } from '../../types/User';
 
 
 
-const { Search } = Input;
-const onSearch = (value: string) => console.log(value);
+
 export interface ContactsProps{
   contacts: UserList[];
   currentContact: UserList;
@@ -25,35 +30,70 @@ export const pseudoFirstLetterMaj = (pseudo:string) => {
 
 const NamesList : FC<ContactsProps> = ({contacts, currentContact, changeChat, userConnect}, ) => {
   const [currIndex, setCurrIndex] = useState<number>(0);
+  const [valueSearch, setValueSearch] = useState<string>("");
+  const [resultSearch, setResultSearch] = useState<User[]>([]) 
+  const dispatch = useDispatch<AppDispatch>();
+  const deconnecter = () => {
+      dispatch(deconnexion());
+      dispatch(reset()) ;
+      window.location.reload();
+  }
 
+  const onSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setValueSearch(value)
+  };
 
+  useEffect(() => {
+    try {
+      axios.get("http://localhost:8080/api/users?pseudo="+valueSearch).then(res => setResultSearch([...res.data]))
+    } catch (error) {
+      console.log(error)
+    }
+  }, [valueSearch])
 
  
 
   return (
     <div className='namesList' id='nameliste'>
       <div className='searchName'>
-      <Search placeholder="input search text" onSearch={onSearch} enterButton />
+        <Input placeholder="Saisissez le pseudo..." onChange={onSearch}/>
       </div>
       <ul className='ulname'> 
          {
-          contacts.map((item, index) => 
-            <li key={index} className={`userList ${index === currIndex  ? "selectTalk" : ""}`}  onClick={() => {setCurrIndex(index); changeChat(item)}}>
-            <img src={item.avatar} alt="" />
-            <div className='userListInfo'>
-              <span className='userListName'>{pseudoFirstLetterMaj(item.pseudo)}</span>
-              <span className='userListName'>Online</span>
-            </div>
-          </li>
-            
-          )
+            valueSearch ? (
+              resultSearch.map((item, index) => 
+                <li key={index} className={`userList ${index === currIndex  ? "selectTalk" : ""}`}  onClick={() => {setCurrIndex(index); changeChat(item)}}>
+                <img src={item.avatar} alt="" />
+                <div className='userListInfo'>
+                  <span className='userListName'>{pseudoFirstLetterMaj(item.pseudo)}</span>
+                  <span className='userListName'>Online</span>
+                </div>
+              </li>
+              )
+            ) :
+            (
+              contacts.map((item, index) => 
+              <li key={index} className={`userList ${index === currIndex  ? "selectTalk" : ""}`}  onClick={() => {setCurrIndex(index); changeChat(item)}}>
+              <img src={item.avatar} alt="" />
+              <div className='userListInfo'>
+                <span className='userListName'>{pseudoFirstLetterMaj(item.pseudo)}</span>
+                <span className='userListName'>Online</span>
+              </div>
+            </li>
+              
+            )
+            )
          }
+  
           
       </ul>
       <div className="userConnecter">
-        <img src={userConnect.avatar} alt="" />
-        <span>{pseudoFirstLetterMaj(userConnect.pseudo)}</span>
-        
+        <div>
+          <img src={userConnect.avatar} alt="" />
+          <span>{pseudoFirstLetterMaj(userConnect.pseudo)}</span>
+        </div>
+        <FaPowerOff className='decon' onClick={deconnecter} size={28} />
       </div>   
     </div>
   )
