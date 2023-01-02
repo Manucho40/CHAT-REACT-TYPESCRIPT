@@ -83,12 +83,8 @@ useEffect(() => {
       >
         <Input.Password name="password" value={password}  onChange={handleInputChange}/>
       </Form.Item>
-{/* 
-      <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item> */}
 
-      <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+      <Form.Item wrapperCol={{ offset: 0, span: 16 }}>
         <Button onChange={onFinish} type="primary" htmlType="submit" style={{backgroundColor: "#000000", borderColor:"#000000", width: "100%"}}>
           Connexion
         </Button>

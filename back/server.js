@@ -5,11 +5,12 @@ const connectDB = require('./config/db');
 const port = process.env.PORT || 5000;
 const socket = require("socket.io");
 const cors = require('cors');
-
-
-
+const corsConfig = {
+    origin: "*",
+    credentials: true,
+};
 connectDB()
-app.use(cors())
+app.use(cors(corsConfig));
 app.use(require('express').json())
 app.use(require('express').urlencoded({extended: false}))
 app.use('/api', require('./routes/userRoutes'))

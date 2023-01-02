@@ -72,11 +72,11 @@
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2) !important;
 } */
 
-/* .checkImage{
+ .checkImage{
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-} */
+} 
 .input-hidden {
     position: absolute;
     left: -9999px;
@@ -354,7 +354,9 @@
     background: #efedaf;
     text-align: justify;
 }
-
+.decon{
+    cursor: pointer;
+}
 .messageContent .other-message:after {
     border-bottom-color: #efedaf;
     left: 93%
@@ -391,7 +393,43 @@
 /* RESPONSIVE */
 /* MOBILE */
 @media (max-width: 480px)
-{
+{   
+    .header{
+        margin-bottom: 40px;
+    }
+    .logo{
+        font-size: 15px;
+    }
+    .menu{
+        position: relative;
+        top: 8px;
+    }
+    .login{
+        font-size: 15px;
+    }
+    .register{
+        font-size: 15px;
+    }
+    
+    .formulaire h1{
+        font-size: 1.5rem;
+    }
+
+    .formulaire h2{
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #828282;
+    }
+    .sousTitreInscription{
+        font-weight: 700;
+        color: #828282;
+        font-size: 1rem !important;
+    }
+    .formu{
+        /* background-color: #090; */
+        text-align: justify;
+}
     /* Vos règles CSS pour les mobiles ici */
     .chat{
         display: grid;
@@ -421,12 +459,7 @@
         background-color: #fff;
   
     }
-    /* .chatContent{
-        display: grid;
-        grid-template-rows: 1fr 8fr 1fr;
-        width: 100%;
-        
-    } */
+
     .chatBar{
         display: flex;
         justify-content: space-between;
@@ -458,28 +491,13 @@
         margin: 0px;
     }
     
-    .messageContent ul {
-        padding-right: 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 77vh;
 
-    }
     
     .user{
         align-self: center;
         
     }
-    .messageContent {
-        padding: 5px;    
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
 
-    }
     .clearfix{
         width: 350px;
     }
@@ -505,7 +523,7 @@
 
 /* HAUTEUR D'ECRAN INFERIEUR A 700PX */
 @media (max-height: 700px){
- 
+
     .clearfix{
         width: 250px;
     }
@@ -552,4 +570,8 @@
   
 }
 /* MOBILE */
+
+@media (max-height: 900px){
+    
+}
 /* RESPONSIVE */

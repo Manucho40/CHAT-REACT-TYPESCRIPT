@@ -42,7 +42,7 @@ useEffect(() => {
   if(typeof(storage) == "string"){
     setUserConnect(JSON.parse(storage))
     const idUserConnect = JSON.parse(storage)._id;
-    axios.get(`http://localhost:8080/api/users/${idUserConnect}`)
+    axios.get(`http://dev.tchat.kae-dev.com/api/users/${idUserConnect}`)
     .then((response) => response.data)
     .then((data) => {
       setContacts(data);
@@ -73,7 +73,7 @@ useEffect(() => {
 //CHATCONTENT
 useEffect( () => {
   const getMessage = async () => {
-    const res = await axios.post("http://localhost:8080/api/messages/getmsg", {
+    const res = await axios.post("http://dev.tchat.kae-dev.com/api/messages/getmsg", {
       from: userConnect._id,
       to: currentContact._id,
     });
@@ -88,7 +88,7 @@ useEffect( () => {
 
 useEffect(() => {
   if(userConnect){
-    socket.current = io("http://localhost:8080");
+    socket.current = io("http://dev.tchat.kae-dev.com/");
     socket.current.emit("add-user", userConnect._id) 
   }
 }, [userConnect])

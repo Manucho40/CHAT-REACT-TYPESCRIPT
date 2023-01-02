@@ -1,7 +1,10 @@
 import React, { FC } from 'react';
+import Accueil from './pages/Accueil';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './styles/App.css';
 import 'antd/dist/antd.min.css';
+import Chat from './pages/Chat';
+import Connexion from './pages/Connexion';
 
 const App: FC = () => {
   const userSession = localStorage.getItem('user');

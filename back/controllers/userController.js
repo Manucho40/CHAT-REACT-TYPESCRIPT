@@ -3,6 +3,10 @@ const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
 
+const getUserAll = asyncHandler(async(req,res) => {
+    const userAll = await User.find();
+    res.status(200).json(userAll);
+})
 const getWelcome = asyncHandler(async(req,res) => {
     res.status(200).json(req.user)
 })
@@ -126,6 +130,7 @@ const searchUser = asyncHandler(async(req, res) =>{
 
 // searchUser()
 module.exports = {
+    getUserAll,
     getWelcome,
     getUser,
     registerUser,

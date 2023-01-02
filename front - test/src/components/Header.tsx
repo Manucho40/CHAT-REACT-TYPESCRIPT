@@ -7,16 +7,16 @@ const Header = () => {
     <div className='container'>
             <header className='header'>
       <div className='logo'>
-        <Link to='/'>KaeDev - Chat</Link>
+        <Link to='/'>KaeChat</Link>
       </div>
-      <ul>
+      <ul className='menu'>
           
-            <li>
+            <li className='login'>
               <Link to='/connexion'>
                 <FaSignInAlt /> Login
               </Link>
             </li>
-            <li>
+            <li className='register'>
               <Link to='/'>
                 <FaUser /> Register
               </Link>
