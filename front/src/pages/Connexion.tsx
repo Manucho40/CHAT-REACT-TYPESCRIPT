@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../app/store";
 import Header from "../components/Header";
 import { connexion, reset } from "../features/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const initialStat: any = {
   pseudo: "",
@@ -19,7 +20,8 @@ const Connexion = () => {
   const { pseudo, password } = dataCo;
   const dispatch = useDispatch<AppDispatch>();
   const [form] = Form.useForm();
-
+  const navigate = useNavigate();
+  // console.log(navigation("/"));
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
     const name = event.target.name;
@@ -28,7 +30,6 @@ const Connexion = () => {
       [name]: event.target.value,
     }));
   };
-
   const { loading } = useSelector((state: any) => state.users);
   useEffect(() => {
     if (loading === "failed") {
@@ -36,11 +37,11 @@ const Connexion = () => {
     }
     if (loading === "succeeded") {
       message.success("Vous êtes bien connectez!");
-      window.location.reload();
+      navigate("/chat");
     }
 
     dispatch(reset());
-  }, [loading, dispatch]);
+  }, [loading, dispatch, navigate]);
   const onFinish = (values: any) => {
     const dataConnexion = {
       pseudo,
