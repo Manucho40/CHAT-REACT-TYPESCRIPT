@@ -87,13 +87,13 @@ const Chat: FC = () => {
 
   useEffect(() => {
     if (userConnect) {
-      socket.current = io("http://localhost:8080");
+      socket.current = io("https://kae-chat-api.onrender.com");
       socket.current.emit("add-user", userConnect._id);
     }
   }, [userConnect]);
 
   const handleSendMsg = async (msg: string) => {
-    await axios.post("http://localhost:8080/api/messages/addmsg", {
+    await axios.post("https://kae-chat-api.onrender.com/api/messages/addmsg", {
       from: userConnect._id,
       to: currentContact._id,
       message: msg,
