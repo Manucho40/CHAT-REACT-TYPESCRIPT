@@ -21,6 +21,8 @@ const Connexion = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const [loadings, setLoadings] = useState<boolean[]>([]);
+
   // console.log(navigation("/"));
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
@@ -33,21 +35,40 @@ const Connexion = () => {
   const { loading } = useSelector((state: any) => state.users);
   useEffect(() => {
     if (loading === "failed") {
-      message.error("Champs vide ou Pseudo déjà existant!");
+      setTimeout(() => {
+        setLoadings((prevLoadings) => {
+          const newLoadings = [...prevLoadings];
+          newLoadings[0] = false;
+          return newLoadings;
+        });
+        message.error("Champs vide ou Pseudo déjà existant!");
+      }, 2000);
     }
     if (loading === "succeeded") {
-      message.success("Vous êtes bien connectez!");
-      navigate("/chat");
+      setTimeout(() => {
+        setLoadings((prevLoadings) => {
+          const newLoadings = [...prevLoadings];
+          newLoadings[0] = false;
+          return newLoadings;
+        });
+        message.success("Vous êtes bien connectez!");
+        navigate("/chat");
+      }, 2000);
     }
 
     dispatch(reset());
   }, [loading, dispatch, navigate]);
-  const onFinish = (values: any) => {
+  const onFinish = async () => {
+    setLoadings((prevLoadings) => {
+      const newLoadings = [...prevLoadings];
+      newLoadings[0] = true;
+      return newLoadings;
+    });
     const dataConnexion = {
       pseudo,
       password,
     };
-    dispatch(connexion(dataConnexion));
+    await dispatch(connexion(dataConnexion));
     setDataCo(initialStat);
     form.resetFields();
   };
@@ -94,6 +115,7 @@ const Connexion = () => {
             onChange={onFinish}
             type="primary"
             htmlType="submit"
+            loading={loadings[0]}
             style={{
               backgroundColor: "#000000",
               borderColor: "#000000",

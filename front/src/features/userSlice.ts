@@ -4,8 +4,9 @@ import { RootState } from "../app/store";
 import { UsersState } from "../types/UsersState";
 import { User } from "../types/User";
 import { userLogin } from "../types/userLogin";
+import BaseURL from "../config";
 
-export const API = "https://kae-chat-api.onrender.com/api/user/";
+export const API = BaseURL + "/api/user/";
 
 const user = JSON.parse(localStorage.getItem("user") || "{}");
 // Formatage de mon initialState

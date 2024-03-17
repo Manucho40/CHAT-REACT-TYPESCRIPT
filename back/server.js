@@ -21,7 +21,7 @@ const server = app.listen(port, () => {
 
 const io = socket(server, {
   cors: {
-    origin: "https://kae-chat.onrender.com",
+    origin: "*",
     credentials: true,
   },
 });

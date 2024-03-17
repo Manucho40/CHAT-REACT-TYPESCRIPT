@@ -36,9 +36,9 @@ const NamesList: FC<ContactsProps> = ({
   const [resultSearch, setResultSearch] = useState<User[]>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const deconnecter = () => {
-    dispatch(deconnexion());
-    dispatch(reset());
+  const deconnecter = async () => {
+    await dispatch(deconnexion());
+    await dispatch(reset());
     navigate("/connexion");
   };
 

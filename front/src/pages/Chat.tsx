@@ -6,6 +6,7 @@ import NamesList from "../components/chatComponents/NamesList";
 import { UserList } from "../types/UserList";
 import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
+import BaseURL from "../config";
 
 const Chat: FC = () => {
   const socket = useRef() as any;
@@ -42,7 +43,7 @@ const Chat: FC = () => {
       setUserConnect(JSON.parse(storage));
       const idUserConnect = JSON.parse(storage)._id;
       axios
-        .get(`https://kae-chat-api.onrender.com/api/users/${idUserConnect}`)
+        .get(`${BaseURL}/api/users/${idUserConnect}`)
         .then((response) => response.data)
         .then((data) => {
           setContacts(data);
@@ -71,13 +72,10 @@ const Chat: FC = () => {
   //CHATCONTENT
   useEffect(() => {
     const getMessage = async () => {
-      const res = await axios.post(
-        "https://kae-chat-api.onrender.com/api/messages/getmsg",
-        {
-          from: userConnect._id,
-          to: currentContact._id,
-        }
-      );
+      const res = await axios.post(BaseURL + "/api/messages/getmsg", {
+        from: userConnect._id,
+        to: currentContact._id,
+      });
       setMessages(res.data);
     };
     if (currentContact) {
@@ -87,13 +85,13 @@ const Chat: FC = () => {
 
   useEffect(() => {
     if (userConnect) {
-      socket.current = io("https://kae-chat-api.onrender.com");
+      socket.current = io(BaseURL);
       socket.current.emit("add-user", userConnect._id);
     }
   }, [userConnect]);
 
   const handleSendMsg = async (msg: string) => {
-    await axios.post("https://kae-chat-api.onrender.com/api/messages/addmsg", {
+    await axios.post(BaseURL + "/api/messages/addmsg", {
       from: userConnect._id,
       to: currentContact._id,
       message: msg,
