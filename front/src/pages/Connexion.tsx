@@ -65,7 +65,7 @@ const Connexion = () => {
       return newLoadings;
     });
     const dataConnexion = {
-      pseudo,
+      pseudo: pseudo.toLocaleLowerCase(),
       password,
     };
     await dispatch(connexion(dataConnexion));

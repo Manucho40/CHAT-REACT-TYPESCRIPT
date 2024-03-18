@@ -1,140 +1,129 @@
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
-const asyncHandler = require('express-async-handler')
-const User = require('../models/userModel')
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const asyncHandler = require("express-async-handler");
+const User = require("../models/userModel");
 
-const getUserAll = asyncHandler(async(req,res) => {
-    const userAll = await User.find();
-    res.status(200).json(userAll);
-})
-const getWelcome = asyncHandler(async(req,res) => {
-    res.status(200).json(req.user)
-})
+const getUserAll = asyncHandler(async (req, res) => {
+  const userAll = await User.find();
+  res.status(200).json(userAll);
+});
+const getWelcome = asyncHandler(async (req, res) => {
+  res.status(200).json(req.user);
+});
 
-const getUser  = asyncHandler( async(req, res, next) =>{
-    try {
-        const users = await User.find({_id: {$ne: req.params.id}}).select([
-            "_id",
-            "pseudo",
-            "email",
-            "avatar"
-        ])
-        res.status(200).json(users)
-    } catch (ex) {
-        next(ex)
-    }
-    // const users = await User.find()
-       
-    // res.status(200).json(users)
-})
+const getUser = asyncHandler(async (req, res, next) => {
+  try {
+    const users = await User.find({ _id: { $ne: req.params.id } }).select([
+      "_id",
+      "pseudo",
+      "email",
+      "avatar",
+    ]);
+    res.status(200).json(users);
+  } catch (ex) {
+    next(ex);
+  }
+  // const users = await User.find()
 
-const registerUser = asyncHandler(async(req, res) => {
-    const {pseudo, email, password, avatar} = req.body;
-    //Vérifier si les champs sont remplits
-    if(!pseudo || !email || !password){
-        res.status(400)
-        throw new Error('Svp remplissez tous les champs!')
-    }
-    //Vérifier si l'utilisateur existe déjà
-    const userExists = await User.findOne({email})
-    if(userExists){
-        res.status(400)
-        throw new Error('Email existe dejà')
-    }
-    // Hasher le mot de passe
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+  // res.status(200).json(users)
+});
 
-    const user = await User.create({
-        pseudo,
-        email: email.toLowerCase(),
-        password: hashedPassword,
-        avatar,
-    })
-    const toke = jwt.sign(
-        { user_id: user._id, email },
-        process.env.TOKEN_KEY,
-        {
-          expiresIn: "2h",
-        }
-      );
-      user.token = toke;
-    await user.save();
-    if(user){
-        res.status(201).json({
-            _id: user.id,
-            pseudo: user.pseudo,
-            email: user.email,
-            token: user.token,
-            avatar: user.avatar
-          })
-    }else{
-        res.status(400)
-        throw new Error('Invalid User data')
-    }
-    
-})
+const registerUser = asyncHandler(async (req, res) => {
+  const { pseudo, email, password, avatar } = req.body;
+  //Vérifier si les champs sont remplits
+  if (!pseudo || !email || !password) {
+    res.status(400);
+    throw new Error("Svp remplissez tous les champs!");
+  }
+  //Vérifier si l'utilisateur existe déjà
+  const userExists = await User.findOne({ email });
+  if (userExists) {
+    res.status(400);
+    throw new Error("Email existe dejà");
+  }
+  // Hasher le mot de passe
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
 
-const loginUser = asyncHandler( async(req, res)  => {
-        const {pseudo, password}= req.body;
-        if(!(pseudo && password)){
-            res.status(400).send("Tous les champs sont requis");
-        }
-        const user = await User.findOne({pseudo});
-        
-        if(user && (await bcrypt.compare(password, user.password))){
-            const token = jwt.sign(
-                { user_id: user._id, pseudo },
-                process.env.TOKEN_KEY,
-                {
-                  expiresIn: "2h",
-                }
-              );
-              user.token = token;
-              res.status(200).json(user); 
-        }else{
-            res.status(400)
-            throw new Error('Les identifiants ne correspondent pas !')
-    
-        }        
-    
+  const user = await User.create({
+    pseudo: pseudo.toLowerCase(),
+    email: email.toLowerCase(),
+    password: hashedPassword,
+    avatar,
+  });
+  const toke = jwt.sign({ user_id: user._id, email }, process.env.TOKEN_KEY, {
+    expiresIn: "2h",
+  });
+  user.token = toke;
+  await user.save();
+  if (user) {
+    res.status(201).json({
+      _id: user.id,
+      pseudo: user.pseudo,
+      email: user.email,
+      token: user.token,
+      avatar: user.avatar,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid User data");
+  }
+});
 
-    
-})
+const loginUser = asyncHandler(async (req, res) => {
+  const { pseudo, password } = req.body;
+  if (!(pseudo && password)) {
+    res.status(400).send("Tous les champs sont requis");
+  }
+  const user = await User.findOne({ pseudo });
 
-const deleteUser = asyncHandler(async(req, res) => {
-    const user = await User.findById(req.params.id);
+  if (user && (await bcrypt.compare(password, user.password))) {
+    const token = jwt.sign(
+      { user_id: user._id, pseudo },
+      process.env.TOKEN_KEY,
+      {
+        expiresIn: "2h",
+      }
+    );
+    user.token = token;
+    res.status(200).json(user);
+  } else {
+    res.status(400);
+    throw new Error("Les identifiants ne correspondent pas !");
+  }
+});
 
-    if(!user){
-        res.status(400)
-        throw new Error('User not found')
-    }
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
 
-    await user.remove();
-    res.status(200).json({id: req.params.id})
+  if (!user) {
+    res.status(400);
+    throw new Error("User not found");
+  }
 
-})
+  await user.remove();
+  res.status(200).json({ id: req.params.id });
+});
 
-
-const searchUser = asyncHandler(async(req, res) =>{
-    const {pseudo} = req.query;
-    let user = User.find().exec();
-    if(pseudo){
-        user = (await user).filter(item => item.pseudo.includes(pseudo))
-        console.log(user)
-    }else{
-        user = []
-    }
-    return res.status(200).json(user)
-})
+const searchUser = asyncHandler(async (req, res) => {
+  const { pseudo } = req.query;
+  let user = User.find().exec();
+  if (pseudo) {
+    user = (await user).filter((item) => item.pseudo.includes(pseudo));
+    console.log(user);
+  } else {
+    user = [];
+  }
+  return res.status(200).json(user);
+});
 
 // searchUser()
 module.exports = {
-    getUserAll,
-    getWelcome,
-    getUser,
-    registerUser,
-    loginUser,
-    deleteUser,
-    searchUser
-}
+  getUserAll,
+  getWelcome,
+  getUser,
+  registerUser,
+  loginUser,
+  deleteUser,
+  searchUser,
+};
