@@ -21,6 +21,7 @@ const App: FC = () => {
   const userSession = localStorage.getItem("user");
   const location = useLocation();
   console.log(BaseURL);
+  console.log(process.env.NODE_ENV);
   return (
     <div className="App">
       <Routes location={location} key={location.pathname}>
